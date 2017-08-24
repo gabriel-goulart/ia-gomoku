@@ -4,7 +4,8 @@ from Models.Tabuleiro import Tabuleiro
 
 class GameGUI(Frame):
     
-    def __init__(self, tabuleiro):
+    def __init__(self, tabuleiro, controlador):
+        self.controlador = controlador
         self.tabuleiro = tabuleiro
         Frame.__init__(self, width=600, height=600)
         self.start()
@@ -24,7 +25,8 @@ class GameGUI(Frame):
         for row in self.tabuleiro.getEstadoAtual():
             coluna = 0
             for casa in row:
-                lb = Label(self.frame_tabuleiro, text="Teste")
+                lb = Frame(self.frame_tabuleiro, width=20, height=20, borderwidth=2)
+                lb.configure(background='green')
                 lb.grid(row=linha, column=coluna)
                 coluna = coluna + 1
 

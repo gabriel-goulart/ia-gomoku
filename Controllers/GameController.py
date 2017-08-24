@@ -16,4 +16,4 @@ class GameController:
             print(row)
 
         # print(self.tabuleiro.getEstadoAtual())
-        game = GameGUI(self.tabuleiro)
+        game = GameGUI(self.tabuleiro, self)
