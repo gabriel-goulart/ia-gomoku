@@ -1,3 +1,4 @@
+.vscode/
 Controllers/__pycache__/
 Models/__pycache__/
 Views/__pycache__/
