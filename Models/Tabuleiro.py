@@ -5,3 +5,25 @@ class Tabuleiro:
 
     def getEstadoAtual(self):
         return self.estadoAtual    
+
+    # gera as possiveis jogadas a partir do estado atual do tabuleiro    
+    def gerarPossiveisJogadas(self):
+
+        possiveisJogadas = []
+
+        linha = 0
+
+        for row in self.estadoAtual:
+
+            coluna = 0
+
+            for column in row:
+
+                if self.estadoAtual[linha][coluna] == 0:
+                    possiveisJogadas.append([linha, coluna])
+
+                coluna = coluna + 1
+
+            linha = linha + 1            
+
+        return possiveisJogadas            
