@@ -4,6 +4,7 @@ from Models.Tabuleiro import Tabuleiro
 
 class GameGUI():
     
+    # construtor
     def __init__(self, tabuleiro, controlador):
         self.tk = Tk()
         self.tk.geometry('700x700')
@@ -11,37 +12,44 @@ class GameGUI():
         self.controlador = controlador
         self.tabuleiro = tabuleiro
         self.mainFrame = Frame(self.tk)
-        # Frame.__init__(self, title= 'Jogo')
-        self.start()
-        mainloop()
+        # Frame.__init__(self, title= 'Jogo')      
 
     def start(self):
+        # lista que armazenará os frames que representarão as casas do tabuleiro    
         self.casasList = []
         
         title = Label(self.mainFrame, text="GOMOKU")
         title.pack()
+
+        # frame que manterá o tabuleiro
         self.frame_tabuleiro = Frame(self.mainFrame, width=300, height=300)
 
         # carregando o tabuleiro do jogo na interface
         self.carregaTabuleiro()
         self.frame_tabuleiro.pack()
 
+        # variavel e label que mostrarão quem é o jogador da vez
         self.jogadorDaVezText = StringVar()
+        self.jogadorDaVezText.set(self.controlador.getJogadorDaVezToGUI()) # pegando no controlador qual o usuario da vez
         self.jogadorDaVezLabel = Label(self.mainFrame, textvariable=self.jogadorDaVezText)
-        self.jogadorDaVezText.set("Jogador")
         self.jogadorDaVezLabel.pack()
 
         self.mainFrame.pack()
+        self.tk.mainloop()
 
+    # mostrando na interface quem é o jogador da vez
     def setJogadorDaVez(self, jogadorText):
         self.jogadorDaVezText.set(jogadorText)
     
-    def casaEscolhida(self, event, linha, coluna):
-        self.setJogada(linha, coluna)
+    # funcao de callback quando uma casa é escolhida
+    def casaEscolhida(self, event, linha, coluna): 
+        self.controlador.movimentacao(linha, coluna)
 
-    def setJogada(self, linha, coluna):
-        self.casasList[linha][coluna].configure(background='green')
+    # carregando a joga feita na interface (pintando o quadrado)
+    def setJogada(self, linha, coluna, cor):
+        self.casasList[linha][coluna].configure(background=cor)
 
+    # carregando o tabuleiro na interface
     def carregaTabuleiro(self):
         linha = 0
         
