@@ -4,7 +4,10 @@ class Tabuleiro:
         self.estadoAtual = [[0 for i in range(dimX)] for j in range(dimY)]
 
     def getEstadoAtual(self):
-        return self.estadoAtual    
+        return self.estadoAtual
+
+    def setEstadoAtual(self, estadoAtual):
+        self.estadoAtual = estadoAtual    
 
     # gera as possiveis jogadas a partir do estado atual do tabuleiro    
     def gerarPossiveisJogadas(self):
@@ -26,4 +29,5 @@ class Tabuleiro:
 
             linha = linha + 1            
 
-        return possiveisJogadas            
+        return possiveisJogadas
+

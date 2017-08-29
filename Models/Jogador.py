@@ -1,13 +1,16 @@
+from Models.Peca import Peca
+
+
 class Jogador:
     nome = ""
-    pecaCor = "green" 
+    peca = None
 
     def __init__(self, nome, pecaCor):
         self.nome = nome
-        self.pecaCor = pecaCor
+        self.peca = Peca(pecaCor, self)
 
     def getNome(self):
         return self.nome
 
-    def getpecaCor(self):
-        return self.pecaCor    
+    def getPeca(self):
+        return self.peca    
