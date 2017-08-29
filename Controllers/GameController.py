@@ -51,7 +51,7 @@ class GameController:
         linha = jogada[1]
         coluna = jogada[2]
 
-        if pontuacao > 900000000 or pontuacao < 900000000:
+        if pontuacao > 900000000 or pontuacao < -900000000:
             self.fim = True
         self.movimentacao(linha, coluna)
 
@@ -65,12 +65,17 @@ class GameController:
         self.setJogadaGUI(linha, coluna)
         # print( self.tabuleiro.getEstadoAtual())
         if self.jogadorDaVez is self.jogador:
-            self.setJogadorDaVez(self.jogadorIA)
+
+            if self.fim is False:
+                self.setJogadorDaVez(self.jogadorIA)
+
             self.setJogadorDaVezGUI()
             # manda executar o minimax
             self.executaMiniMax()
         else:
-            self.setJogadorDaVez(self.jogador)
+            if self.fim is False:
+                self.setJogadorDaVez(self.jogador)
+
             self.setJogadorDaVezGUI()    
 
          
