@@ -1,3 +1,4 @@
+import _thread
 from Models.Tabuleiro import Tabuleiro
 from Models.Jogador import Jogador
 from Views.GameGUI import GameGUI
@@ -55,14 +56,14 @@ class GameController:
             self.fim = True
         self.movimentacao(linha, coluna)
 
-    def setJogadaGUI(self, linha, coluna):
-        self.gameGui.setJogada(linha, coluna, self.jogadorDaVez.getPeca().getCor())
+    def startJogadaIa(self):
+        _thread.start_new_thread(self.executaMiniMax, ())
      
     # Repassa a movimentacao para o tabuleiro e para a interface grafica 
     def movimentacao(self, linha, coluna):
 
         self.tabuleiro.getEstadoAtual()[linha][coluna] = self.jogadorDaVez.getPeca()
-        self.setJogadaGUI(linha, coluna)
+        self.gameGui.setJogada(linha, coluna, self.jogadorDaVez.getPeca().getCor())
         # print( self.tabuleiro.getEstadoAtual())
         if self.jogadorDaVez is self.jogador:
 
@@ -71,7 +72,7 @@ class GameController:
 
             self.setJogadorDaVezGUI()
             # manda executar o minimax
-            self.executaMiniMax()
+            self.startJogadaIa()
         else:
             if self.fim is False:
                 self.setJogadorDaVez(self.jogador)

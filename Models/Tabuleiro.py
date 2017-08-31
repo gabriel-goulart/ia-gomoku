@@ -9,6 +9,7 @@ class Tabuleiro:
     def setEstadoAtual(self, estadoAtual):
         self.estadoAtual = estadoAtual    
 
+    # otimizacao (pegar a linha em que o usuario jogou e gerar os estados filhos a partir dessa linha)
     # gera as possiveis jogadas a partir do estado atual do tabuleiro    
     def gerarPossiveisJogadas(self):
 

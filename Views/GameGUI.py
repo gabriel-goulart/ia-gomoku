@@ -45,9 +45,7 @@ class GameGUI():
         self.jogadorDaVezText.set(vencedor)
 
     # funcao de callback quando uma casa é escolhida
-    def casaEscolhida(self, event, linha, coluna): 
-        
-        self.casasList[linha][coluna].configure(background=self.controlador.getJogadorDaVez().getPeca().getCor())
+    def casaEscolhida(self, event, linha, coluna):                 
         self.controlador.movimentacao(linha, coluna)
 
     # carregando a joga feita na interface (pintando o quadrado)
