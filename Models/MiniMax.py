@@ -11,18 +11,20 @@ class MiniMax:
 		self.jogador2 = jogador2
 		self.isRunning = False
 
-	def start(self, profundidade, tabuleiro):
+	def start(self, profundidade, tabuleiro, linha):
+		self.limitLinha = linha
 		self.isRunning = True
 		self.count = 0
 		self.pontuacao = [5, 10, 5000, 10000, 5000000, 10000000, 1000000000]
 		# tabuleiroCopia = Tabuleiro(15, 15)
 		# tabuleiroCopia.setEstadoAtual(tabuleiro.getEstadoAtual())
 		jogada = self.run(profundidade, tabuleiro, self.jogador1, -1*sys.maxsize, sys.maxsize)
-		print("Pontuacao : " + str(jogada[0]) + "Linha : " + str(jogada[1]) + "Coluna : " + str(jogada[2]))
-		return jogada		
+		#print("Pontuacao : " + str(jogada[0]) + "Linha : " + str(jogada[1]) + "Coluna : " + str(jogada[2]))
+		return jogada
+			
 		
 	def run(self, profundidade, tabuleiro, jogador, alpha, beta):
-		proximasJogadas = tabuleiro.gerarPossiveisJogadas()
+		proximasJogadas = tabuleiro.gerarPossiveisJogadas(self.limitLinha)
 		pontuacao = 0
 		jogadaLinha = -1
 		jogadaColuna = -1
@@ -1133,6 +1135,539 @@ class MiniMax:
 					coluna = diagonalControle -1
 					linhaControle = linhaControle +1
 
+
+		###### diagonal base-esquerda( \ ) ##############
+		linha = 14
+		coluna = 4
+		diagonalControle = 5
+		linhaControle = 10
+		espacoVazio = 0	
+
+		while diagonalControle < len(estados[0]):
+			if diagonalControle > len(estados[0]):
+				break
+			# print("Controle diagonal : " + str(diagonalControle))	
+			if estados[linha][coluna] == 0:
+
+				if linha < linhaControle:
+					espacoVazio = 0
+					linha = 14
+					coluna = diagonalControle
+					diagonalControle = diagonalControle + 1
+					# print("Controle Vazio diagonal : " + str(diagonalControle))
+				else:
+					espacoVazio = 1
+					linha = linha -1
+					coluna = coluna -1
+				continue
+
+			elif estados[linha][coluna].getDono() is self.jogador1:
+
+				if linha-1 > linhaControle and coluna -1 > 0:
+
+					# a casa esta vazia
+					if estados[linha-1][coluna-1] == 0:
+						espacoVazio = 1
+						linha = linha -1
+						coluna = coluna -1
+						continue
+					# tem duas pecas em sequencia	
+					elif estados[linha-1][coluna-1].getDono() is self.jogador1:
+
+						if linha-2 > linhaControle and coluna -2 > 0:
+
+							if estados[linha-2][coluna-2] == 0:
+								if espacoVazio == 1:
+									scoreP1D = scoreP1D + self.pontuacao[1]
+								else:
+									scoreP1D = scoreP1D + self.pontuacao[0]
+
+								espacoVazio = 1
+								linha = linha -2
+								coluna = coluna -2
+								continue
+							
+							# tem tres pecas em sequencia
+							elif estados[linha-2][coluna-2].getDono() is self.jogador1:
+
+								if linha-3 > linhaControle and coluna -3 > 0:
+
+									if estados[linha-3][coluna-3] == 0:
+										
+										if espacoVazio == 1:											 
+											scoreP1D = scoreP1D + self.pontuacao[3]
+										else:
+											scoreP1D = scoreP1D + self.pontuacao[2]
+
+										espacoVazio = 1
+										linha = linha -3
+										coluna = coluna -3
+										continue
+
+									# tem quatro pecas em sequencia
+									elif estados[linha-3][coluna-3].getDono() is self.jogador1:
+
+										if linha-4 > linhaControle and coluna -4 > 0:
+
+											if estados[linha-4][coluna-4] == 0:
+												if espacoVazio == 1:											 
+													scoreP1D = scoreP1D + self.pontuacao[5]
+												else:
+													scoreP1D = scoreP1D + self.pontuacao[4]
+
+												espacoVazio = 1
+												linha = linha -4
+												coluna = coluna -4
+												continue
+
+											# tem 5 pecas
+											elif estados[linha-4][coluna-4].getDono() is self.jogador1:
+												espacoVazio = 0
+												linha = linha -4
+												coluna = coluna -4
+												scoreP1D = scoreP1D + self.pontuacao[6]
+											else:
+												if espacoVazio == 1:
+													scoreP1D = scoreP1D + self.pontuacao[4]
+													espacoVazio = 0
+												linha = linha -4
+												coluna = coluna -4	
+										# fim do tabuleiro	
+										else:
+											if espacoVazio == 1:
+												scoreP1D = scoreP1D + self.pontuacao[4]
+												espacoVazio = 0
+											linha = 14
+											coluna = diagonalControle
+											diagonalControle = diagonalControle + 1
+									else:
+										if espacoVazio == 1:
+											scoreP1D = scoreP1D + self.pontuacao[2]
+											espacoVazio = 0
+										linha = linha -3
+										coluna = coluna -3		
+								# fim do tabuleiro	
+								else:
+									if espacoVazio == 1:
+										scoreP1D = scoreP1D + self.pontuacao[2]
+										espacoVazio = 0
+									linha = 14
+									coluna = diagonalControle
+									diagonalControle = diagonalControle + 1
+
+							else:
+								if espacoVazio == 1:
+									scoreP1D = scoreP1D + self.pontuacao[0]
+									espacoVazio = 0
+								linha = linha -2
+								coluna = coluna -2	
+						# fim do tabuleiro	
+						else:
+							if espacoVazio == 1:
+								scoreP1D = scoreP1D + self.pontuacao[0]
+								espacoVazio = 0
+							linha = 14
+							coluna = diagonalControle
+							diagonalControle = diagonalControle + 1
+					else:
+						linha = linha -1
+						coluna = coluna -1	
+
+				# terminou o processamento da coluna		
+				else:
+					linha = 14
+					coluna = diagonalControle
+					diagonalControle = diagonalControle + 1	
+
+			# peca do jogador 2		
+			else:
+				if linha-1 > linhaControle and coluna -1 > 0:
+
+					# a casa esta vazia
+					if estados[linha-1][coluna-1] == 0:
+						espacoVazio = 1
+						linha = linha -1
+						coluna = coluna -1
+						continue
+					# tem duas pecas em sequencia	
+					elif estados[linha-1][coluna-1].getDono() is self.jogador2:
+
+						if linha-2 > linhaControle and coluna -2 > 0:
+
+							if estados[linha-2][coluna-2] == 0:
+								if espacoVazio == 1:
+									scoreP2D = scoreP2D + self.pontuacao[1]
+								else:
+									scoreP2D = scoreP2D + self.pontuacao[0]
+
+								espacoVazio = 1
+								linha = linha -2
+								coluna = coluna -2
+								continue
+							
+							# tem tres pecas em sequencia
+							elif estados[linha-2][coluna-2].getDono() is self.jogador2:
+
+								if linha-3 > linhaControle and coluna -3 > 0:
+
+									if estados[linha-3][coluna-3] == 0:
+										
+										if espacoVazio == 1:											 
+											scoreP2D = scoreP2D + self.pontuacao[3]
+										else:
+											scoreP2D = scoreP2D + self.pontuacao[2]
+
+										espacoVazio = 1
+										linha = linha -3
+										coluna = coluna -3
+										continue
+
+									# tem quatro pecas em sequencia
+									elif estados[linha-3][coluna-3].getDono() is self.jogador2:
+
+										if linha-4 > linhaControle and coluna -4 > 0:
+
+											if estados[linha-4][coluna-4] == 0:
+												if espacoVazio == 1:											 
+													scoreP2D = scoreP2D + self.pontuacao[5]
+												else:
+													scoreP2D = scoreP2D + self.pontuacao[4]
+
+												espacoVazio = 1
+												linha = linha -4
+												coluna = coluna -4
+												continue
+
+											# tem 5 pecas
+											elif estados[linha-4][coluna-4].getDono() is self.jogador2:
+												espacoVazio = 0
+												linha = linha -4
+												coluna = coluna -4
+												scoreP2D = scoreP2D + self.pontuacao[6]
+											else:
+												if espacoVazio == 1:
+													scoreP2D = scoreP2D + self.pontuacao[4]
+													espacoVazio = 0
+												linha = linha -4
+												coluna = coluna -4	
+										# fim do tabuleiro	
+										else:
+											if espacoVazio == 1:
+												scoreP2D = scoreP2D + self.pontuacao[4]
+												espacoVazio = 0
+											linha = 14
+											coluna = diagonalControle
+											diagonalControle = diagonalControle + 1	
+									else:
+										if espacoVazio == 1:
+											scoreP2D = scoreP2D + self.pontuacao[2]
+											espacoVazio = 0
+										linha = linha -3
+										coluna = coluna -3		
+								# fim do tabuleiro	
+								else:
+									if espacoVazio == 1:
+										scoreP2D = scoreP2D + self.pontuacao[2]
+										espacoVazio = 0
+									linha = 14
+									coluna = diagonalControle
+									diagonalControle = diagonalControle + 1	
+
+							else:
+								if espacoVazio == 1:
+									scoreP2D = scoreP2D + self.pontuacao[0]
+									espacoVazio = 0
+								linha = linha -2
+								coluna = coluna -2	
+						# fim do tabuleiro	
+						else:
+							if espacoVazio == 1:
+								scoreP2D = scoreP2D + self.pontuacao[0]
+								espacoVazio = 0
+							linha = 14
+							coluna = diagonalControle
+							diagonalControle = diagonalControle + 1	
+					else:
+						linha = linha -1
+						coluna = coluna -1	
+
+				# terminou o processamento da coluna		
+				else:
+					linha = 14
+					coluna = diagonalControle
+					diagonalControle = diagonalControle + 1	
+
+		
+		###### diagonal base-esquerda ( / ) ##############
+		linha = 14
+		coluna = 10
+		diagonalControle = 11
+		linhaControle = 10
+		espacoVazio = 0
+		while diagonalControle > 0:
+			
+			print("Controle diagonal : " + str(diagonalControle))	
+			if estados[linha][coluna] == 0:
+
+				if linha <= linhaControle:
+					espacoVazio = 0
+					linha = 14
+					diagonalControle = diagonalControle - 1
+					linhaControle = linhaControle -1
+					coluna = diagonalControle -1
+					
+					print("Controle Vazio diagonal : " + str(diagonalControle))
+				else:
+					espacoVazio = 1
+					linha = linha -1
+					coluna = coluna +1
+				continue
+
+			elif estados[linha][coluna].getDono() is self.jogador1:
+
+				if linha-1 > linhaControle and coluna +1 < len(estados[0]):
+
+					# a casa esta vazia
+					if estados[linha-1][coluna+1] == 0:
+						espacoVazio = 1
+						linha = linha -1
+						coluna = coluna +1
+						continue
+					# tem duas pecas em sequencia	
+					elif estados[linha-1][coluna+1].getDono() is self.jogador1:
+
+						if linha-2 > linhaControle and coluna +2 < len(estados[0]):
+
+							if estados[linha-2][coluna+2] == 0:
+								if espacoVazio == 1:
+									scoreP1D = scoreP1D + self.pontuacao[1]
+								else:
+									scoreP1D = scoreP1D + self.pontuacao[0]
+
+								espacoVazio = 1
+								linha = linha -2
+								coluna = coluna +2
+								continue
+							
+							# tem tres pecas em sequencia
+							elif estados[linha-2][coluna+2].getDono() is self.jogador1:
+
+								if linha-3 > linhaControle and coluna +3 < len(estados[0]):
+
+									if estados[linha-3][coluna+3] == 0:
+										
+										if espacoVazio == 1:											 
+											scoreP1D = scoreP1D + self.pontuacao[3]
+										else:
+											scoreP1D = scoreP1D + self.pontuacao[2]
+
+										espacoVazio = 1
+										linha = linha -3
+										coluna = coluna +3
+										continue
+
+									# tem quatro pecas em sequencia
+									elif estados[linha-3][coluna+3].getDono() is self.jogador1:
+
+										if linha-4 > linhaControle and coluna +4 < len(estados[0]):
+
+											if estados[linha-4][coluna+4] == 0:
+												if espacoVazio == 1:											 
+													scoreP1D = scoreP1D + self.pontuacao[5]
+												else:
+													scoreP1D = scoreP1D + self.pontuacao[4]
+
+												espacoVazio = 1
+												linha = linha -4
+												coluna = coluna +4
+												continue
+
+											# tem 5 pecas
+											elif estados[linha-4][coluna+4].getDono() is self.jogador1:
+												espacoVazio = 0
+												linha = linha -4
+												coluna = coluna +4
+												scoreP1D = scoreP1D + self.pontuacao[6]
+											else:
+												if espacoVazio == 1:
+													scoreP1D = scoreP1D + self.pontuacao[4]
+													espacoVazio = 0
+												linha = linha -4
+												coluna = coluna +4	
+										# fim do tabuleiro	
+										else:
+											if espacoVazio == 1:
+												scoreP1D = scoreP1D + self.pontuacao[4]
+												espacoVazio = 0
+											linha = 14
+											diagonalControle = diagonalControle - 1
+											coluna = diagonalControle -1
+											linhaControle = linhaControle -1
+											
+									else:
+										if espacoVazio == 1:
+											scoreP1D = scoreP1D + self.pontuacao[2]
+											espacoVazio = 0
+										linha = linha -3
+										coluna = coluna +3		
+								# fim do tabuleiro	
+								else:
+									if espacoVazio == 1:
+										scoreP1D = scoreP1D + self.pontuacao[2]
+										espacoVazio = 0
+									linha = 14
+									diagonalControle = diagonalControle - 1
+									coluna = diagonalControle -1
+									linhaControle = linhaControle -1
+
+							else:
+								if espacoVazio == 1:
+									scoreP1D = scoreP1D + self.pontuacao[0]
+									espacoVazio = 0
+								linha = linha -2
+								coluna = coluna +2	
+						# fim do tabuleiro	
+						else:
+							if espacoVazio == 1:
+								scoreP1D = scoreP1D + self.pontuacao[0]
+								espacoVazio = 0
+							linha = 14
+							diagonalControle = diagonalControle - 1
+							coluna = diagonalControle -1
+							linhaControle = linhaControle -1
+					else:
+						linha = linha -1
+						coluna = coluna +1	
+
+				# terminou o processamento da coluna		
+				else:
+					linha = 14
+					diagonalControle = diagonalControle - 1
+					coluna = diagonalControle -1
+					linhaControle = linhaControle -1
+
+			# peca do jogador 2		
+			else:
+				if linha-1 > linhaControle and coluna -1 < len(estados[0]):
+
+					# a casa esta vazia
+					if estados[linha-1][coluna+1] == 0:
+						espacoVazio = 1
+						linha = linha -1
+						coluna = coluna +1
+						continue
+					# tem duas pecas em sequencia	
+					elif estados[linha-1][coluna+1].getDono() is self.jogador2:
+
+						if linha-2 > linhaControle and coluna +2 < len(estados[0]):
+
+							if estados[linha-2][coluna+2] == 0:
+								if espacoVazio == 1:
+									scoreP2D = scoreP2D + self.pontuacao[1]
+								else:
+									scoreP2D = scoreP2D + self.pontuacao[0]
+
+								espacoVazio = 1
+								linha = linha -2
+								coluna = coluna +2
+								continue
+							
+							# tem tres pecas em sequencia
+							elif estados[linha-2][coluna+2].getDono() is self.jogador2:
+
+								if linha-3 > linhaControle and coluna +3 < len(estados[0]):
+
+									if estados[linha-3][coluna+3] == 0:
+										
+										if espacoVazio == 1:											 
+											scoreP2D = scoreP2D + self.pontuacao[3]
+										else:
+											scoreP2D = scoreP2D + self.pontuacao[2]
+
+										espacoVazio = 1
+										linha = linha -3
+										coluna = coluna +3
+										continue
+
+									# tem quatro pecas em sequencia
+									elif estados[linha-3][coluna+3].getDono() is self.jogador2:
+
+										if linha-4 > linhaControle and coluna +4 < len(estados[0]):
+
+											if estados[linha-4][coluna+4] == 0:
+												if espacoVazio == 1:											 
+													scoreP2D = scoreP2D + self.pontuacao[5]
+												else:
+													scoreP2D = scoreP2D + self.pontuacao[4]
+
+												espacoVazio = 1
+												linha = linha -4
+												coluna = coluna +4
+												continue
+
+											# tem 5 pecas
+											elif estados[linha-4][coluna+4].getDono() is self.jogador2:
+												espacoVazio = 0
+												linha = linha -4
+												coluna = coluna +4
+												scoreP2D = scoreP2D + self.pontuacao[6]
+											else:
+												if espacoVazio == 1:
+													scoreP2D = scoreP2D + self.pontuacao[4]
+													espacoVazio = 0
+												linha = linha -4
+												coluna = coluna +4	
+										# fim do tabuleiro	
+										else:
+											if espacoVazio == 1:
+												scoreP2D = scoreP2D + self.pontuacao[4]
+												espacoVazio = 0
+											linha = 14
+											diagonalControle = diagonalControle - 1
+											coluna = diagonalControle -1
+											linhaControle = linhaControle -1
+									else:
+										if espacoVazio == 1:
+											scoreP2D = scoreP2D + self.pontuacao[2]
+											espacoVazio = 0
+										linha = linha -3
+										coluna = coluna +3		
+								# fim do tabuleiro	
+								else:
+									if espacoVazio == 1:
+										scoreP2D = scoreP2D + self.pontuacao[2]
+										espacoVazio = 0
+									linha = 14
+									diagonalControle = diagonalControle - 1
+									coluna = diagonalControle -1
+									linhaControle = linhaControle -1
+
+							else:
+								if espacoVazio == 1:
+									scoreP2D = scoreP2D + self.pontuacao[0]
+									espacoVazio = 0
+								linha = linha -2
+								coluna = coluna +2	
+						# fim do tabuleiro	
+						else:
+							if espacoVazio == 1:
+								scoreP2D = scoreP2D + self.pontuacao[0]
+								espacoVazio = 0
+							linha = 14
+							diagonalControle = diagonalControle - 1
+							coluna = diagonalControle -1
+							linhaControle = linhaControle -1
+					else:
+						linha = linha -1
+						coluna = coluna +1	
+
+				# terminou o processamento da coluna		
+				else:
+					linha = 14
+					diagonalControle = diagonalControle - 1
+					coluna = diagonalControle -1
+					linhaControle = linhaControle -1						
+		
 		# print("Pontuacao p1 diagonal : " + str(scoreP1D))
 		# print("Pontuacao p2 diagonal : " + str(scoreP2D))
 		return scoreP1D - scoreP2D			

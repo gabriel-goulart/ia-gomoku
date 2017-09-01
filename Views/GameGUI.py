@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import messagebox
+
 from Models.Tabuleiro import Tabuleiro
 
 
@@ -37,12 +39,25 @@ class GameGUI():
         self.mainFrame.pack()
         self.tk.mainloop()
 
+    def stop(self):
+        self.tk.destroy()
+
+    def setTabuleiro(self, tabuleiro):
+        self.tabuleiro = tabuleiro    
+
     # mostrando na interface quem é o jogador da vez
     def setJogadorDaVez(self, jogadorText):
         self.jogadorDaVezText.set(jogadorText)
     
     def setVencedor(self, vencedor):
-        self.jogadorDaVezText.set(vencedor)
+        jogarNovamente = messagebox.askquestion("FIM DE JOGO", "!! VENCEDOR : " + str(vencedor) + "!!!! \n\n Jogar Novamente ?")
+        
+        if jogarNovamente == "yes":
+            print("SIM")
+            self.controlador.restart()
+        else:
+            print("NAO")    
+        
 
     # funcao de callback quando uma casa é escolhida
     def casaEscolhida(self, event, linha, coluna):                 

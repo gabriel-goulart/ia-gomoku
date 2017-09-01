@@ -12,7 +12,7 @@ class GameController:
     jogadorDaVez = None
     gameGui = None
 
-    def start(self):
+    def start(self, restart=False):
         self.fim = False
         self.isRunning = True
         self.profundidade = 0
@@ -26,12 +26,25 @@ class GameController:
         #    print(row)
         
         # print(self.tabuleiro.getEstadoAtual())
-        self.gameGui = GameGUI(self.tabuleiro, self)
+        if restart:
+            self.gameGui.setTabuleiro(self.tabuleiro)
+            self.gameGui.carregaTabuleiro()
+        else:
+            self.gameGui = GameGUI(self.tabuleiro, self)
+            self.gameGui.start()
+
         
-        self.gameGui.start()
-    
+    def restart(self):
+        
+        del self.jogadorIA
+        del self.jogador
+        del self.tabuleiro
+        del self.miniMax
+        self.start()
+
     def setJogadorDaVez(self, jogador):
-        self.jogadorDaVez = jogador   
+        self.jogadorDaVez = jogador 
+        self.gameGui.setJogadorDaVez(jogador.getNome())  
 
     def getJogadorDaVez(self):
         return self.jogadorDaVez     
@@ -39,44 +52,40 @@ class GameController:
     def getJogadorDaVezToGUI(self):
         return self.jogadorDaVez.getNome()
 
+    def fimJogo(self, vencedor):
+        self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(vencedor.getNome()) + " !!!!")
+        
     def setJogadorDaVezGUI(self):
         if self.fim:
             self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(self.jogadorDaVez.getNome()) + " !!!!")
         else:
             self.gameGui.setJogadorDaVez(self.jogadorDaVez.getNome())     
 
-    def executaMiniMax(self):
+    def executaMiniMax(self, linha):
         self.profundidade = 2
-        jogada = self.miniMax.start(self.profundidade, self.tabuleiro)
+        jogada = self.miniMax.start(self.profundidade, self.tabuleiro, linha)
         pontuacao = jogada[0]
         linha = jogada[1]
         coluna = jogada[2]
 
-        if pontuacao > 900000000 or pontuacao < -900000000:
-            self.fim = True
-        self.movimentacao(linha, coluna)
+        if pontuacao > 900000000:
+            self.fimJogo(self.jogadorIA) 
+        elif pontuacao < -900000000:
+            self.fimJogo(self.jogador)
+        else:
+            self.movimentacao(linha, coluna)
 
-    def startJogadaIa(self):
-        _thread.start_new_thread(self.executaMiniMax, ())
+    def startJogadaIa(self, linha):
+        _thread.start_new_thread(self.executaMiniMax, (linha, ))
      
     # Repassa a movimentacao para o tabuleiro e para a interface grafica 
     def movimentacao(self, linha, coluna):
-
         self.tabuleiro.getEstadoAtual()[linha][coluna] = self.jogadorDaVez.getPeca()
         self.gameGui.setJogada(linha, coluna, self.jogadorDaVez.getPeca().getCor())
         # print( self.tabuleiro.getEstadoAtual())
         if self.jogadorDaVez is self.jogador:
-
-            if self.fim is False:
-                self.setJogadorDaVez(self.jogadorIA)
-
-            self.setJogadorDaVezGUI()
+            self.setJogadorDaVez(self.jogadorIA)
             # manda executar o minimax
-            self.startJogadaIa()
+            self.startJogadaIa(linha)
         else:
-            if self.fim is False:
-                self.setJogadorDaVez(self.jogador)
-
-            self.setJogadorDaVezGUI()    
-
-         
+            self.setJogadorDaVez(self.jogador)

@@ -11,24 +11,40 @@ class Tabuleiro:
 
     # otimizacao (pegar a linha em que o usuario jogou e gerar os estados filhos a partir dessa linha)
     # gera as possiveis jogadas a partir do estado atual do tabuleiro    
-    def gerarPossiveisJogadas(self):
+    def gerarPossiveisJogadas(self, linhaLimit=None):
 
         possiveisJogadas = []
+        linhaLimitInferior = 0
+        linhaLimitSuperior = 0
+        if linhaLimit is not None:
 
-        linha = 0
+            if linhaLimit - 2 > 0:
+                linhaLimitInferior = linhaLimit - 2
 
-        for row in self.estadoAtual:
+            if linhaLimit + 2 >= len(self.estadoAtual[0]):
+                linhaLimitSuperior = len(self.estadoAtual[0])
+            else:
+                linhaLimitSuperior = linhaLimit + 2
 
-            coluna = 0
+            for row in range(linhaLimitInferior, linhaLimitSuperior, 1):
+                
+                for column in range(len(self.estadoAtual[0])):
+                    if self.estadoAtual[row][column] == 0:
+                        possiveisJogadas.append([row, column])
+         
+        else:
+            for row in self.estadoAtual:
 
-            for column in row:
+                coluna = 0
 
-                if self.estadoAtual[linha][coluna] == 0:
-                    possiveisJogadas.append([linha, coluna])
+                for column in row:
 
-                coluna = coluna + 1
+                    if self.estadoAtual[linha][coluna] == 0:
+                        possiveisJogadas.append([linha, coluna])
 
-            linha = linha + 1            
+                    coluna = coluna + 1
 
+                linha = linha + 1            
+        
         return possiveisJogadas
 
