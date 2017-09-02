@@ -14,9 +14,40 @@ class GameGUI():
         self.controlador = controlador
         self.tabuleiro = tabuleiro
         self.mainFrame = Frame(self.tk)
+        
         # Frame.__init__(self, title= 'Jogo')      
 
     def start(self):
+        
+        self.escolherPrimeiroJogador()
+        self.tk.mainloop()
+
+    def restart(self):
+        for row in self.casasList:
+            for column in row:
+                column.configure(background='grey')
+
+        self.setJogadorDaVez(self.controlador.getJogadorDaVez().getNome())        
+
+    def jogadorEscolhidoGUI(self):
+        print(self.jogadorEscolhido.get())
+        self.controlador.setJogadorInicial(self.jogadorEscolhido.get())
+
+    def escolherPrimeiroJogador(self):       
+        self.jogadorEscolhido = IntVar()
+        self.jogadorEscolhido.set(0)
+        self.jogadorEscolha = Frame(self.tk)
+        title = Label(self.jogadorEscolha, text="Escolher quem iniciará o jogo")
+        title.pack()
+
+        escolha1 = Radiobutton(self.jogadorEscolha, text="Computador", value=1, variable=self.jogadorEscolhido, command=self.jogadorEscolhidoGUI).pack(anchor=W)
+        escolha2 = Radiobutton(self.jogadorEscolha, text="Humano", value=2, variable=self.jogadorEscolhido, command=self.jogadorEscolhidoGUI).pack(anchor=W)
+         
+        self.jogadorEscolha.pack()
+       
+
+    def carregaJogo(self):
+        self.jogadorEscolha.destroy()
         # lista que armazenará os frames que representarão as casas do tabuleiro    
         self.casasList = []
         
@@ -32,15 +63,14 @@ class GameGUI():
 
         # variavel e label que mostrarão quem é o jogador da vez
         self.jogadorDaVezText = StringVar()
-        self.jogadorDaVezText.set(self.controlador.getJogadorDaVezToGUI()) # pegando no controlador qual o usuario da vez
+        self.jogadorDaVezText.set(self.controlador.getJogadorDaVez().getNome()) # pegando no controlador qual o usuario da vez
         self.jogadorDaVezLabel = Label(self.mainFrame, textvariable=self.jogadorDaVezText)
         self.jogadorDaVezLabel.pack()
 
         self.mainFrame.pack()
-        self.tk.mainloop()
 
-    def stop(self):
-        self.tk.destroy()
+        if self.jogadorEscolhido.get() == 1:
+            self.controlador.executaMiniMax(0)
 
     def setTabuleiro(self, tabuleiro):
         self.tabuleiro = tabuleiro    

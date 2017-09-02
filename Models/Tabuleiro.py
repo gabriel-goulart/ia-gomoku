@@ -18,13 +18,13 @@ class Tabuleiro:
         linhaLimitSuperior = 0
         if linhaLimit is not None:
 
-            if linhaLimit - 2 > 0:
-                linhaLimitInferior = linhaLimit - 2
+            if linhaLimit - 4 > 0:
+                linhaLimitInferior = linhaLimit - 4
 
-            if linhaLimit + 2 >= len(self.estadoAtual[0]):
+            if linhaLimit + 4 >= len(self.estadoAtual[0]):
                 linhaLimitSuperior = len(self.estadoAtual[0])
             else:
-                linhaLimitSuperior = linhaLimit + 2
+                linhaLimitSuperior = linhaLimit + 4
 
             for row in range(linhaLimitInferior, linhaLimitSuperior, 1):
                 

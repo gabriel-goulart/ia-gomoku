@@ -20,19 +20,17 @@ class GameController:
         self.jogadorIA = Jogador("maquina", "red")
         self.jogador = Jogador("humano", "green")
         self.miniMax = MiniMax(self.jogadorIA, self.jogador)
-        self.jogadorDaVez = self.jogador
-        
+        self.jogadorDaVez = self.jogador        
         # for row in self.tabuleiro.gerarPossiveisJogadas():
         #    print(row)
         
         # print(self.tabuleiro.getEstadoAtual())
         if restart:
             self.gameGui.setTabuleiro(self.tabuleiro)
-            self.gameGui.carregaTabuleiro()
+            self.gameGui.restart()
         else:
             self.gameGui = GameGUI(self.tabuleiro, self)
             self.gameGui.start()
-
         
     def restart(self):
         
@@ -40,7 +38,17 @@ class GameController:
         del self.jogador
         del self.tabuleiro
         del self.miniMax
-        self.start()
+        self.start(True)
+
+    def setJogadorInicial(self, escolha):
+        print(escolha)
+
+        if escolha == 1:
+            self.jogadorDaVez = self.jogadorIA
+        else:
+            self.jogadorDaVez = self.jogador    
+        
+        self.gameGui.carregaJogo()
 
     def setJogadorDaVez(self, jogador):
         self.jogadorDaVez = jogador 
@@ -48,10 +56,7 @@ class GameController:
 
     def getJogadorDaVez(self):
         return self.jogadorDaVez     
-
-    def getJogadorDaVezToGUI(self):
-        return self.jogadorDaVez.getNome()
-
+  
     def fimJogo(self, vencedor):
         self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(vencedor.getNome()) + " !!!!")
         
@@ -89,3 +94,4 @@ class GameController:
             self.startJogadaIa(linha)
         else:
             self.setJogadorDaVez(self.jogador)
+            
