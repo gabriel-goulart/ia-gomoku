@@ -15,13 +15,13 @@ class GameGUI():
         self.tabuleiro = tabuleiro
         self.mainFrame = Frame(self.tk)
         
-        # Frame.__init__(self, title= 'Jogo')      
-
+    # inicia a interface gráfica
     def start(self):
         
         self.escolherPrimeiroJogador()
         self.tk.mainloop()
 
+    # reinicializa a interface gráfica
     def restart(self):
         for row in self.casasList:
             for column in row:
@@ -29,10 +29,12 @@ class GameGUI():
 
         self.setJogadorDaVez(self.controlador.getJogadorDaVez().getNome())        
 
+    # passa para o controlador o jogador escolhido na interface gráfica
     def jogadorEscolhidoGUI(self):
-        print(self.jogadorEscolhido.get())
+        # print(self.jogadorEscolhido.get())
         self.controlador.setJogadorInicial(self.jogadorEscolhido.get())
 
+    # mostra para o usuário a tela para escolher o jogador inicial
     def escolherPrimeiroJogador(self):       
         self.jogadorEscolhido = IntVar()
         self.jogadorEscolhido.set(0)
@@ -45,7 +47,7 @@ class GameGUI():
          
         self.jogadorEscolha.pack()
        
-
+    # carrega a tela que mostrará o tabuleiro do jogo
     def carregaJogo(self):
         self.jogadorEscolha.destroy()
         # lista que armazenará os frames que representarão as casas do tabuleiro    
@@ -72,6 +74,7 @@ class GameGUI():
         if self.jogadorEscolhido.get() == 1:
             self.controlador.executaMiniMax(0)
 
+    # atualiza o tabuleiro, esse método é usado quando o jogo é reiniciado
     def setTabuleiro(self, tabuleiro):
         self.tabuleiro = tabuleiro    
 
@@ -79,16 +82,15 @@ class GameGUI():
     def setJogadorDaVez(self, jogadorText):
         self.jogadorDaVezText.set(jogadorText)
     
+    # mostra mensagem quem venceu o jogo e verifica se quer jogar novamente
     def setVencedor(self, vencedor):
         jogarNovamente = messagebox.askquestion("FIM DE JOGO", "!! VENCEDOR : " + str(vencedor) + "!!!! \n\n Jogar Novamente ?")
         
         if jogarNovamente == "yes":
-            print("SIM")
             self.controlador.restart()
         else:
-            print("NAO")    
+            self.tk.destroy()
         
-
     # funcao de callback quando uma casa é escolhida
     def casaEscolhida(self, event, linha, coluna):                 
         self.controlador.movimentacao(linha, coluna)

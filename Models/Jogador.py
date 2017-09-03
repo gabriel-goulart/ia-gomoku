@@ -9,8 +9,10 @@ class Jogador:
         self.nome = nome
         self.peca = Peca(pecaCor, self)
 
+    # retorna o nome do jogador
     def getNome(self):
         return self.nome
 
+    # retorna a peca do jogador    
     def getPeca(self):
         return self.peca    

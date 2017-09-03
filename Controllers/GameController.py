@@ -12,6 +12,7 @@ class GameController:
     jogadorDaVez = None
     gameGui = None
 
+    # cria todos os objetos necessarios no sistema e inicia a interface gráfica
     def start(self, restart=False):
         self.fim = False
         self.isRunning = True
@@ -21,17 +22,14 @@ class GameController:
         self.jogador = Jogador("humano", "green")
         self.miniMax = MiniMax(self.jogadorIA, self.jogador)
         self.jogadorDaVez = self.jogador        
-        # for row in self.tabuleiro.gerarPossiveisJogadas():
-        #    print(row)
-        
-        # print(self.tabuleiro.getEstadoAtual())
         if restart:
             self.gameGui.setTabuleiro(self.tabuleiro)
             self.gameGui.restart()
         else:
             self.gameGui = GameGUI(self.tabuleiro, self)
             self.gameGui.start()
-        
+
+    # reinicializa o sistema    
     def restart(self):
         
         del self.jogadorIA
@@ -40,8 +38,8 @@ class GameController:
         del self.miniMax
         self.start(True)
 
+    # seta o jogador inicial
     def setJogadorInicial(self, escolha):
-        print(escolha)
 
         if escolha == 1:
             self.jogadorDaVez = self.jogadorIA
@@ -50,22 +48,27 @@ class GameController:
         
         self.gameGui.carregaJogo()
 
+    # atualiza o jogado da vez
     def setJogadorDaVez(self, jogador):
         self.jogadorDaVez = jogador 
         self.gameGui.setJogadorDaVez(jogador.getNome())  
 
+    # retorna o jogador da vez
     def getJogadorDaVez(self):
         return self.jogadorDaVez     
   
+    # chama a interface gráfica para mostrar a interface de fim de jogo
     def fimJogo(self, vencedor):
         self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(vencedor.getNome()) + " !!!!")
-        
+
+    # seta na interface o jogador da vez    
     def setJogadorDaVezGUI(self):
         if self.fim:
             self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(self.jogadorDaVez.getNome()) + " !!!!")
         else:
             self.gameGui.setJogadorDaVez(self.jogadorDaVez.getNome())     
 
+    # executa o algoritmo para realizar a jogada do computador
     def executaMiniMax(self, linha):
         self.profundidade = 2
         jogada = self.miniMax.start(self.profundidade, self.tabuleiro, linha)
@@ -80,6 +83,7 @@ class GameController:
         else:
             self.movimentacao(linha, coluna)
 
+    # cria uma thread para executar o minimax
     def startJogadaIa(self, linha):
         _thread.start_new_thread(self.executaMiniMax, (linha, ))
      

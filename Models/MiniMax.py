@@ -9,31 +9,29 @@ class MiniMax:
 	def __init__(self, jogador1, jogador2):
 		self.jogador1 = jogador1
 		self.jogador2 = jogador2
-		self.isRunning = False
 
+	# inicia os parametros usados no algoritmo
 	def start(self, profundidade, tabuleiro, linha):
 		self.limitLinha = linha
-		self.isRunning = True
-		self.count = 0
+		self.countIteracoes = 0
 		self.pontuacao = [5, 10, 5000, 10000, 5000000, 10000000, 1000000000]
 		# tabuleiroCopia = Tabuleiro(15, 15)
 		# tabuleiroCopia.setEstadoAtual(tabuleiro.getEstadoAtual())
 		jogada = self.run(profundidade, tabuleiro, self.jogador1, -1*sys.maxsize, sys.maxsize)
 		#print("Pontuacao : " + str(jogada[0]) + "Linha : " + str(jogada[1]) + "Coluna : " + str(jogada[2]))
+		print(" MINIMAX - Iteracoes : " + str(self.countIteracoes))
 		return jogada
-			
-		
+
+	# execucao do algoritmo			
 	def run(self, profundidade, tabuleiro, jogador, alpha, beta):
 		proximasJogadas = tabuleiro.gerarPossiveisJogadas(self.limitLinha)
 		pontuacao = 0
 		jogadaLinha = -1
 		jogadaColuna = -1
-		print(" MINIMAX RUNNING - Profundidade : " + str(profundidade))
+		self.countIteracoes = self.countIteracoes + 1
 		# print(tabuleiro.getEstadoAtual())
 		if(len(proximasJogadas) == 0 or profundidade == 0):
 			pontuacao = self.avaliacao(tabuleiro)
-			self.count = self.count + 1
-			print("MINIMAX TERMINOU : " + str(self.count))
 			return [pontuacao, jogadaLinha, jogadaColuna]
 		else:
 			for jogada in proximasJogadas:
@@ -62,12 +60,7 @@ class MiniMax:
 			param = alpha if jogador is self.jogador1 else beta		
 			return [param, jogadaLinha, jogadaColuna]
 
-	def avaliacaoTeste(self):
-		p1 = randint(1, 9) * 100
-		p2 = randint(1, 9) * 100
-
-		return p1 - p2
-
+	# realiza a avaliacao do tabuleiro
 	def avaliacao(self, tabuleiro):
 		# print("Executando a avaliacao")
 		
@@ -1406,7 +1399,6 @@ class MiniMax:
 		espacoVazio = 0
 		while diagonalControle > 0:
 			
-			print("Controle diagonal : " + str(diagonalControle))	
 			if estados[linha][coluna] == 0:
 
 				if linha <= linhaControle:
@@ -1416,7 +1408,6 @@ class MiniMax:
 					linhaControle = linhaControle -1
 					coluna = diagonalControle -1
 					
-					print("Controle Vazio diagonal : " + str(diagonalControle))
 				else:
 					espacoVazio = 1
 					linha = linha -1

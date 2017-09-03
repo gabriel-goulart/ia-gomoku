@@ -3,13 +3,14 @@ class Tabuleiro:
     def __init__(self, dimX, dimY):
         self.estadoAtual = [[0 for i in range(dimX)] for j in range(dimY)]
 
+    # retorna o estado atual do tabuleiro
     def getEstadoAtual(self):
         return self.estadoAtual
 
+    # atualiza o estado atual do tabuleiro    
     def setEstadoAtual(self, estadoAtual):
         self.estadoAtual = estadoAtual    
 
-    # otimizacao (pegar a linha em que o usuario jogou e gerar os estados filhos a partir dessa linha)
     # gera as possiveis jogadas a partir do estado atual do tabuleiro    
     def gerarPossiveisJogadas(self, linhaLimit=None):
 
