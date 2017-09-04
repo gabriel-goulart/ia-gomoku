@@ -59,14 +59,7 @@ class GameController:
   
     # chama a interface gráfica para mostrar a interface de fim de jogo
     def fimJogo(self, vencedor):
-        self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(vencedor.getNome()) + " !!!!")
-
-    # seta na interface o jogador da vez    
-    def setJogadorDaVezGUI(self):
-        if self.fim:
-            self.gameGui.setVencedor(" !!!! VENCEDOR : " + str(self.jogadorDaVez.getNome()) + " !!!!")
-        else:
-            self.gameGui.setJogadorDaVez(self.jogadorDaVez.getNome())     
+        self.gameGui.setVencedor(str(vencedor.getNome()) + " !!!!")    
 
     # executa o algoritmo para realizar a jogada do computador
     def executaMiniMax(self, linha):
@@ -77,6 +70,7 @@ class GameController:
         coluna = jogada[2]
 
         if pontuacao > 900000000:
+            self.movimentacao(linha, coluna)
             self.fimJogo(self.jogadorIA) 
         elif pontuacao < -900000000:
             self.fimJogo(self.jogador)
