@@ -18,7 +18,7 @@ class MiniMax:
 		# tabuleiroCopia = Tabuleiro(15, 15)
 		# tabuleiroCopia.setEstadoAtual(tabuleiro.getEstadoAtual())
 		jogada = self.run(profundidade, tabuleiro, self.jogador1, -1*sys.maxsize, sys.maxsize)
-		#print("Pontuacao : " + str(jogada[0]) + "Linha : " + str(jogada[1]) + "Coluna : " + str(jogada[2]))
+		print("Pontuacao : " + str(jogada[0]) + "Linha : " + str(jogada[1]) + "Coluna : " + str(jogada[2]))
 		print(" MINIMAX - Iteracoes : " + str(self.countIteracoes))
 		return jogada
 
