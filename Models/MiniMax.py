@@ -108,14 +108,12 @@ class MiniMax:
 								# tem duas pecas e a casa seguinte esta vazia
 								if row[coluna + 2] == 0:	
 									# ja tem um espaco vazio, entao sao dois espacos vazios
-									if espacoVazio == 1:
-										scoreP1 = scoreP1 + self.pontuacao[1]
-										coluna = coluna + 2
-									# so tem um espaco vazio	
-									else:
-										scoreP1 = scoreP1 + self.pontuacao[0]
+									
+									scoreP1 = scoreP1 + self.pontuacao[espacoVazio]
+									coluna = coluna + 2
+									# so tem um espaco vazio
+									if espacoVazio == 0:
 										espacoVazio = 1	
-										coluna = coluna + 2
 
 								# tem tres pecas
 								elif row[coluna+2].getDono() is self.jogador1:
@@ -125,14 +123,11 @@ class MiniMax:
 										# tem tres pecas e a casa seguinte esta vazia	
 										if row[coluna + 3] == 0:
 											# ja tem um espaco vazio, entao sao dois espacos vazios
-											if espacoVazio == 1:
-												scoreP1 = scoreP1 + self.pontuacao[3]
-												coluna = coluna + 3
+											coluna = coluna + 3	
+											scoreP1 = scoreP1 + self.pontuacao[espacoVazio + 2]
 											# so tem um espaco vazio	
-											else:
-												scoreP1 = scoreP1 + self.pontuacao[2]
-												espacoVazio = 1	
-												coluna = coluna + 3	
+											if espacoVazio == 0:
+												espacoVazio = 1
 
 										# tem quatro pecas
 										elif row[coluna+3].getDono() is self.jogador1:
@@ -142,14 +137,12 @@ class MiniMax:
 												# tem quatro pecas e a casa seguinte esta vazia	
 												if row[coluna+4] == 0:
 													# ja tem um espaco vazio, entao sao dois espacos vazios
-													if espacoVazio == 1:
-														scoreP1 = scoreP1 + self.pontuacao[5]
-														coluna = coluna + 4
+													coluna = coluna + 4
+													scoreP1 = scoreP1 + self.pontuacao[espacoVazio + 4]
 													# so tem um espaco vazio	
-													else:
-														scoreP1 = scoreP1 + self.pontuacao[4]
-														espacoVazio = 1	
-														coluna = coluna + 4	
+													if espacoVazio == 0:
+														espacoVazio = 1
+													
 												# tem 5 pecas
 												elif row[coluna+4].getDono() is self.jogador1:
 													scoreP1 = scoreP1 + self.pontuacao[6]
@@ -161,45 +154,47 @@ class MiniMax:
 													espacoVazio = 0
 													coluna = coluna + 4
 
-											# tem quatro pecas no canto do tabuleiro e tem um espaco vazio		
+											# tem quatro pecas no canto do tabuleiro e tem um espaco vazio	
 											elif espacoVazio == 1:
 												scoreP1 = scoreP1 + self.pontuacao[4]
 												espacoVazio = 0
-												coluna = coluna + 4	
 
+											coluna = coluna + 4
 											# tem quatro pecas no canto do tabuleiro e nao tem espaco vazio	
-											else:	
-												coluna = coluna + 4
+											# soma na coluna ja foi feita na linha depois do elif
+										
+												
 
 										# tem tres pecas e a seguinte eh do oponente			
 										elif row[coluna+3].getDono() is self.jogador2:
 											espacoVazio = 0 
 											coluna = coluna + 3											
 
-									# tem tres pecas no canto do tabuleiro e tem um espaco vazio				
+									# tem tres pecas no canto do tabuleiro e tem um espaco vazio	
 									elif espacoVazio == 1:
 										scoreP1 = scoreP1 + self.pontuacao[2]
 										espacoVazio = 0
-										coluna = coluna + 3	
+									
+									coluna = coluna + 3			
 
 									# tem tres pecas no canto do tabuleiro e nao tem espaco vazio	
-									else:
-										coluna = coluna + 3
+									# soma da coluna ja foi feita na linha depois do elif
+										
 
 								# tem duas pecas e a peca seguinte eh do oponente						
 								elif row[coluna+2].getDono() is self.jogador2:
 									coluna = coluna + 2
 									espacoVazio = 0
 								
-							# duas pecas no canto do tabuleiro e tem um espaco vazio					
+							# duas pecas no canto do tabuleiro e tem um espaco vazio
 							elif espacoVazio == 1:
 								scoreP1 = scoreP1 + self.pontuacao[0]
 								espacoVazio = 0
-								coluna = coluna + 2
 
+							coluna = coluna + 2						
 							# duas pecas no canto do tabuleiro e nao tem espacos vazios
-							else:
-								coluna = coluna + 2	
+							# soma da coluna ja feita na linha depois do elif
+								
 
 						# a peca seguinte eh do oponente							
 						elif row[coluna+1].getDono() is self.jogador2:
@@ -227,14 +222,12 @@ class MiniMax:
 								# tem duas pecas e a casa seguinte esta vazia
 								if row[coluna+2] == 0:	
 									# ja tem um espaco vazio, entao sao dois espacos vazios
-									if espacoVazio == 1:
-										scoreP2 = scoreP2 + self.pontuacao[1]
-										coluna = coluna + 2
-									# so tem um espaco vazio	
-									else:
-										scoreP2 = scoreP2 + self.pontuacao[0]
-										espacoVazio = 1	
-										coluna = coluna + 2
+
+									scoreP2 = scoreP2 + self.pontuacao[espacoVazio]
+									coluna = coluna + 2
+
+									if espacoVazio == 0:
+										espacoVazio = 1
 
 								# tem tres pecas
 								elif row[coluna+2].getDono() is self.jogador2:
@@ -244,14 +237,11 @@ class MiniMax:
 										# tem tres pecas e a casa seguinte esta vazia	
 										if row[coluna+3] == 0:
 											# ja tem um espaco vazio, entao sao dois espacos vazios
-											if espacoVazio == 1:
-												scoreP2 = scoreP2 + self.pontuacao[3]
-												coluna = coluna + 3
+											coluna = coluna + 3
+											scoreP2 = scoreP2 + self.pontuacao[espacoVazio + 2]
 											# so tem um espaco vazio	
-											else:
-												scoreP2 = scoreP2 + self.pontuacao[2]
+											if espacoVazio == 0:
 												espacoVazio = 1	
-												coluna = coluna + 3		
 
 										# tem quatro pecas
 										elif row[coluna+3].getDono() is self.jogador2:
@@ -261,14 +251,12 @@ class MiniMax:
 												# tem quatro pecas e a casa seguinte esta vazia	
 												if row[coluna+4] == 0:
 													# ja tem um espaco vazio, entao sao dois espacos vazios
-													if espacoVazio == 1:
-														scoreP2 = scoreP2 + self.pontuacao[5]
-														coluna = coluna + 4
-													# so tem um espaco vazio	
-													else:
-														scoreP2 = scoreP2 + self.pontuacao[4]
+													coluna = coluna + 4
+													scoreP2 = scoreP2 + self.pontuacao[espacoVazio + 4]
+													if espacoVazio == 0:
 														espacoVazio = 1	
-														coluna = coluna + 4
+														# so tem um espaco vazio	
+
 												# tem 5 pecas
 												elif row[coluna+4].getDono() is self.jogador2:
 													scoreP2 = scoreP2 + self.pontuacao[6]
@@ -284,11 +272,10 @@ class MiniMax:
 											elif espacoVazio == 1:
 												scoreP2 = scoreP2 + self.pontuacao[4]
 												espacoVazio = 0
-												coluna = coluna + 4	
 
+											coluna = coluna + 4
 											# tem quatro pecas no canto do tabuleiro e nao tem espaco vazio	
-											else:	
-												coluna = coluna + 4
+											# soma da coluna ja feita depois do elif	
 
 										# tem tres pecas e a seguinte eh do oponente			
 										elif row[coluna+3].getDono() is self.jogador1:
@@ -299,11 +286,10 @@ class MiniMax:
 									elif espacoVazio == 1:
 										scoreP2 = scoreP2 + self.pontuacao[2]
 										espacoVazio = 0
-										coluna = coluna + 3	
-
+										
+									coluna = coluna + 3
 									# tem tres pecas no canto do tabuleiro e nao tem espaco vazio	
-									else:
-										coluna = coluna + 3
+									# soma da coluna ja feita antes do elif
 
 								# tem duas pecas e a peca seguinte eh do oponente						
 								elif row[coluna+2].getDono() is self.jogador1:
@@ -314,11 +300,10 @@ class MiniMax:
 							elif espacoVazio == 1:
 								scoreP2 = scoreP2 + self.pontuacao[0]
 								espacoVazio = 0
-								coluna = coluna + 2
 
+							coluna = coluna + 2	
 							# duas pecas no canto do tabuleiro e nao tem espacos vazios
-							else:
-								coluna = coluna + 2	
+							# soma da coluna ja feita depois do elif
 
 						# a peca seguinte eh do oponente							
 						elif row[coluna+1].getDono() is self.jogador1:
