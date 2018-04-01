@@ -622,11 +622,7 @@ class MiniMax:
 								if linha+3 < diagonalControle and coluna -3 > 0:
 
 									if estados[linha+3][coluna-3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP1D = scoreP1D + self.pontuacao[3]
-										else:
-											scoreP1D = scoreP1D + self.pontuacao[2]
+										scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha +3
@@ -639,11 +635,8 @@ class MiniMax:
 										if linha+4 < diagonalControle and coluna -4 > 0:
 
 											if estados[linha+4][coluna-4] == 0:
-												if espacoVazio == 1:											 
-													scoreP1D = scoreP1D + self.pontuacao[5]
-												else:
-													scoreP1D = scoreP1D + self.pontuacao[4]
-
+												scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 4]
+												
 												espacoVazio = 1
 												linha = linha +4
 												coluna = coluna -4
@@ -724,11 +717,8 @@ class MiniMax:
 						if linha+2 < diagonalControle and coluna -2 > 0:
 
 							if estados[linha+2][coluna-2] == 0:
-								if espacoVazio == 1:
-									scoreP2D = scoreP2D + self.pontuacao[1]
-								else:
-									scoreP2D = scoreP2D + self.pontuacao[0]
-
+								scoreP2D = scoreP2D + self.pontuacao[espacoVazio]
+								
 								espacoVazio = 1
 								linha = linha +2
 								coluna = coluna -2
@@ -740,11 +730,7 @@ class MiniMax:
 								if linha+3 < diagonalControle and coluna -3 > 0:
 
 									if estados[linha+3][coluna-3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP2D = scoreP2D + self.pontuacao[3]
-										else:
-											scoreP2D = scoreP2D + self.pontuacao[2]
+										scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha +3
@@ -757,11 +743,8 @@ class MiniMax:
 										if linha+4 < diagonalControle and coluna -4 > 0:
 
 											if estados[linha+4][coluna-4] == 0:
-												if espacoVazio == 1:											 
-													scoreP2D = scoreP2D + self.pontuacao[5]
-												else:
-													scoreP2D = scoreP2D + self.pontuacao[4]
-
+												scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 4]
+											
 												espacoVazio = 1
 												linha = linha +4
 												coluna = coluna -4
@@ -868,11 +851,8 @@ class MiniMax:
 						if linha+2 < linhaControle and coluna +2 < len(estados[0]):
 
 							if estados[linha+2][coluna+2] == 0:
-								if espacoVazio == 1:
-									scoreP1D = scoreP1D + self.pontuacao[1]
-								else:
-									scoreP1D = scoreP1D + self.pontuacao[0]
-
+								scoreP1D = scoreP1D + self.pontuacao[espacoVazio]
+							
 								espacoVazio = 1
 								linha = linha +2
 								coluna = coluna +2
@@ -884,11 +864,7 @@ class MiniMax:
 								if linha+3 < linhaControle and coluna +3 < len(estados[0]):
 
 									if estados[linha+3][coluna+3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP1D = scoreP1D + self.pontuacao[3]
-										else:
-											scoreP1D = scoreP1D + self.pontuacao[2]
+										scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha +3
@@ -901,10 +877,7 @@ class MiniMax:
 										if linha+4 < linhaControle and coluna +4 < len(estados[0]):
 
 											if estados[linha+4][coluna+4] == 0:
-												if espacoVazio == 1:											 
-													scoreP1D = scoreP1D + self.pontuacao[5]
-												else:
-													scoreP1D = scoreP1D + self.pontuacao[4]
+												scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 4]
 
 												espacoVazio = 1
 												linha = linha +4
@@ -991,10 +964,7 @@ class MiniMax:
 						if linha+2 < linhaControle and coluna +2 < len(estados[0]):
 
 							if estados[linha+2][coluna+2] == 0:
-								if espacoVazio == 1:
-									scoreP2D = scoreP2D + self.pontuacao[1]
-								else:
-									scoreP2D = scoreP2D + self.pontuacao[0]
+								scoreP2D = scoreP2D + self.pontuacao[espacoVazio]
 
 								espacoVazio = 1
 								linha = linha +2
@@ -1007,11 +977,7 @@ class MiniMax:
 								if linha+3 < linhaControle and coluna +3 < len(estados[0]):
 
 									if estados[linha+3][coluna+3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP2D = scoreP2D + self.pontuacao[3]
-										else:
-											scoreP2D = scoreP2D + self.pontuacao[2]
+										scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha +3
@@ -1024,10 +990,7 @@ class MiniMax:
 										if linha+4 < linhaControle and coluna +4 < len(estados[0]):
 
 											if estados[linha+4][coluna+4] == 0:
-												if espacoVazio == 1:											 
-													scoreP2D = scoreP2D + self.pontuacao[5]
-												else:
-													scoreP2D = scoreP2D + self.pontuacao[4]
+												scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 3]
 
 												espacoVazio = 1
 												linha = linha +4
@@ -1139,10 +1102,7 @@ class MiniMax:
 						if linha-2 > linhaControle and coluna -2 > 0:
 
 							if estados[linha-2][coluna-2] == 0:
-								if espacoVazio == 1:
-									scoreP1D = scoreP1D + self.pontuacao[1]
-								else:
-									scoreP1D = scoreP1D + self.pontuacao[0]
+								scoreP1D = scoreP1D + self.pontuacao[espacoVazio]
 
 								espacoVazio = 1
 								linha = linha -2
@@ -1155,11 +1115,7 @@ class MiniMax:
 								if linha-3 > linhaControle and coluna -3 > 0:
 
 									if estados[linha-3][coluna-3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP1D = scoreP1D + self.pontuacao[3]
-										else:
-											scoreP1D = scoreP1D + self.pontuacao[2]
+										scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha -3
@@ -1172,10 +1128,7 @@ class MiniMax:
 										if linha-4 > linhaControle and coluna -4 > 0:
 
 											if estados[linha-4][coluna-4] == 0:
-												if espacoVazio == 1:											 
-													scoreP1D = scoreP1D + self.pontuacao[5]
-												else:
-													scoreP1D = scoreP1D + self.pontuacao[4]
+												scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 3]
 
 												espacoVazio = 1
 												linha = linha -4
@@ -1257,10 +1210,7 @@ class MiniMax:
 						if linha-2 > linhaControle and coluna -2 > 0:
 
 							if estados[linha-2][coluna-2] == 0:
-								if espacoVazio == 1:
-									scoreP2D = scoreP2D + self.pontuacao[1]
-								else:
-									scoreP2D = scoreP2D + self.pontuacao[0]
+								scoreP2D = scoreP2D + self.pontuacao[espacoVazio]
 
 								espacoVazio = 1
 								linha = linha -2
@@ -1273,11 +1223,7 @@ class MiniMax:
 								if linha-3 > linhaControle and coluna -3 > 0:
 
 									if estados[linha-3][coluna-3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP2D = scoreP2D + self.pontuacao[3]
-										else:
-											scoreP2D = scoreP2D + self.pontuacao[2]
+										scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha -3
@@ -1290,11 +1236,8 @@ class MiniMax:
 										if linha-4 > linhaControle and coluna -4 > 0:
 
 											if estados[linha-4][coluna-4] == 0:
-												if espacoVazio == 1:											 
-													scoreP2D = scoreP2D + self.pontuacao[5]
-												else:
-													scoreP2D = scoreP2D + self.pontuacao[4]
-
+												scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 4]
+												
 												espacoVazio = 1
 												linha = linha -4
 												coluna = coluna -4
@@ -1399,10 +1342,7 @@ class MiniMax:
 						if linha-2 > linhaControle and coluna +2 < len(estados[0]):
 
 							if estados[linha-2][coluna+2] == 0:
-								if espacoVazio == 1:
-									scoreP1D = scoreP1D + self.pontuacao[1]
-								else:
-									scoreP1D = scoreP1D + self.pontuacao[0]
+								scoreP1D = scoreP1D + self.pontuacao[espacoVazio]
 
 								espacoVazio = 1
 								linha = linha -2
@@ -1415,11 +1355,7 @@ class MiniMax:
 								if linha-3 > linhaControle and coluna +3 < len(estados[0]):
 
 									if estados[linha-3][coluna+3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP1D = scoreP1D + self.pontuacao[3]
-										else:
-											scoreP1D = scoreP1D + self.pontuacao[2]
+										scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha -3
@@ -1432,10 +1368,7 @@ class MiniMax:
 										if linha-4 > linhaControle and coluna +4 < len(estados[0]):
 
 											if estados[linha-4][coluna+4] == 0:
-												if espacoVazio == 1:											 
-													scoreP1D = scoreP1D + self.pontuacao[5]
-												else:
-													scoreP1D = scoreP1D + self.pontuacao[4]
+												scoreP1D = scoreP1D + self.pontuacao[espacoVazio + 4]
 
 												espacoVazio = 1
 												linha = linha -4
@@ -1522,10 +1455,7 @@ class MiniMax:
 						if linha-2 > linhaControle and coluna +2 < len(estados[0]):
 
 							if estados[linha-2][coluna+2] == 0:
-								if espacoVazio == 1:
-									scoreP2D = scoreP2D + self.pontuacao[1]
-								else:
-									scoreP2D = scoreP2D + self.pontuacao[0]
+								scoreP2D = scoreP2D + self.pontuacao[espacoVazio]
 
 								espacoVazio = 1
 								linha = linha -2
@@ -1538,11 +1468,7 @@ class MiniMax:
 								if linha-3 > linhaControle and coluna +3 < len(estados[0]):
 
 									if estados[linha-3][coluna+3] == 0:
-										
-										if espacoVazio == 1:											 
-											scoreP2D = scoreP2D + self.pontuacao[3]
-										else:
-											scoreP2D = scoreP2D + self.pontuacao[2]
+										scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 2]
 
 										espacoVazio = 1
 										linha = linha -3
@@ -1555,10 +1481,7 @@ class MiniMax:
 										if linha-4 > linhaControle and coluna +4 < len(estados[0]):
 
 											if estados[linha-4][coluna+4] == 0:
-												if espacoVazio == 1:											 
-													scoreP2D = scoreP2D + self.pontuacao[5]
-												else:
-													scoreP2D = scoreP2D + self.pontuacao[4]
+												scoreP2D = scoreP2D + self.pontuacao[espacoVazio + 4]
 
 												espacoVazio = 1
 												linha = linha -4
