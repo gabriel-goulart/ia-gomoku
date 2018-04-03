@@ -68,11 +68,12 @@ class GameController:
         pontuacao = jogada[0]
         linha = jogada[1]
         coluna = jogada[2]
-        avaliacao = self.miniMax.avaliacao(self.tabuleiro)
-        if pontuacao > 900000000 or avaliacao > 900000000:
+        #avaliacao = self.miniMax.avaliacao(self.tabuleiro)
+        print(" PONTUAÇÃO : " + str(pontuacao))
+        if pontuacao > 9440000000: #or avaliacao > 900000000:
             self.movimentacao(linha, coluna)
             self.fimJogo(self.jogadorIA) 
-        elif avaliacao < -900000000:
+        elif pontuacao < -9440000000:
             self.fimJogo(self.jogador)
         else:
             self.movimentacao(linha, coluna)

@@ -14,7 +14,7 @@ class MiniMax:
 	def start(self, profundidade, tabuleiro, linha):
 		self.limitLinha = linha
 		self.countIteracoes = 0
-		self.pontuacao = [5, 10, 5000, 10000, 5000000, 10000000, 1000000000]
+		self.pontuacao = [5, 10, 5000, 10000, 5000000, 10000000, 10000000000]
 		# tabuleiroCopia = Tabuleiro(15, 15)
 		# tabuleiroCopia.setEstadoAtual(tabuleiro.getEstadoAtual())
 		jogada = self.run(profundidade, tabuleiro, self.jogador1, -1*sys.maxsize, sys.maxsize)
@@ -64,11 +64,13 @@ class MiniMax:
 	def avaliacao(self, tabuleiro):
 		# print("Executando a avaliacao")
 		
-		scoreAvaliacaoPorLinha = self.avaliacaoPorLinha(tabuleiro)
-		scoreAvaliacaoPorColuna = self.avaliacaoPorColuna(tabuleiro)
-		scoreAvaliacaoPorDiagonal = self.avaliacaoPorDiagonal(tabuleiro)
-		score = scoreAvaliacaoPorLinha + scoreAvaliacaoPorColuna + scoreAvaliacaoPorDiagonal	
-		# print("Avaliacao Linha : " + str(scoreAvaliacaoPorLinha)+ " Avaliacao Coluna : " + str(scoreAvaliacaoPorColuna)+ "Avaliacao Total : " + str(score))
+		scoreP1L,quantPecasJogador1,scoreP2L,quantPecasJogador2 = self.avaliacaoPorLinha(tabuleiro)
+		scoreP1C,scoreP2C = self.avaliacaoPorColuna(tabuleiro)
+		scoreP1D,scoreP2D = self.avaliacaoPorDiagonal(tabuleiro)
+		quantPecasJogador1 = quantPecasJogador1 if quantPecasJogador1 > 0 else 122
+		quantPecasJogador2 = quantPecasJogador2 if quantPecasJogador2 > 0 else 122
+		score = ((scoreP1L + scoreP1C + scoreP1D)*(122/quantPecasJogador1)) - ((scoreP2L + scoreP2C + scoreP2D)*(122/quantPecasJogador2))
+		#print("Avaliacao  : " + str(score))
 		return score
 
 	# avalia o tabuleiro em suas linhas
@@ -79,6 +81,8 @@ class MiniMax:
 		scoreP1 = 0
 		scoreP2 = 0
 		espacoVazio = 0
+		quantPecasJogador1 = 0
+		quantPecasJogador2 = 0
 		# avaliando por linhas
 		for row in estados:
 			coluna = 0
@@ -93,6 +97,7 @@ class MiniMax:
 				# avaliando as pecas do jogador1
 				# tem uma peca
 				if row[coluna].getDono() is self.jogador1:
+					quantPecasJogador1 = quantPecasJogador1 + 1
 					if coluna+1 < len(row):
 
 						# a casa seguinte esta vazia	
@@ -103,6 +108,7 @@ class MiniMax:
 
 						elif row[coluna+1].getDono() is self.jogador1:
 							# print("JOGADOR 1")
+							quantPecasJogador1 = quantPecasJogador1 + 1
 							if coluna+2 < len(row):
 								
 								# tem duas pecas e a casa seguinte esta vazia
@@ -117,6 +123,7 @@ class MiniMax:
 
 								# tem tres pecas
 								elif row[coluna+2].getDono() is self.jogador1:
+									quantPecasJogador1 = quantPecasJogador1 + 1
 
 									if coluna+3 < len(row):
 
@@ -131,7 +138,7 @@ class MiniMax:
 
 										# tem quatro pecas
 										elif row[coluna+3].getDono() is self.jogador1:
-											
+											quantPecasJogador1 = quantPecasJogador1 + 1
 											if coluna+4 < len(row):
 
 												# tem quatro pecas e a casa seguinte esta vazia	
@@ -145,6 +152,7 @@ class MiniMax:
 													
 												# tem 5 pecas
 												elif row[coluna+4].getDono() is self.jogador1:
+													quantPecasJogador1 = quantPecasJogador1 + 1
 													scoreP1 = scoreP1 + self.pontuacao[6]
 													espacoVazio = 0
 													coluna = coluna + 5
@@ -207,6 +215,7 @@ class MiniMax:
 				# avaliando as pecas do jogador2
 				# tem uma peca			
 				elif row[coluna].getDono() is self.jogador2:
+					quantPecasJogador2 = quantPecasJogador2 + 1
 					# print("JOGADOR 2")
 					if coluna+1 < len(row):
 						# a casa seguinte esta vazia	
@@ -216,6 +225,7 @@ class MiniMax:
 
 						# tem duas pecas
 						elif row[coluna+1].getDono() is self.jogador2:
+							quantPecasJogador2 = quantPecasJogador2 + 1
 
 							if coluna+2 < len(row):
 
@@ -231,6 +241,7 @@ class MiniMax:
 
 								# tem tres pecas
 								elif row[coluna+2].getDono() is self.jogador2:
+									quantPecasJogador2 = quantPecasJogador2 + 1
 
 									if coluna+3 < len(row):
 
@@ -245,6 +256,7 @@ class MiniMax:
 
 										# tem quatro pecas
 										elif row[coluna+3].getDono() is self.jogador2:
+											quantPecasJogador2 = quantPecasJogador2 + 1
 											
 											if coluna+4 < len(row):
 
@@ -259,6 +271,7 @@ class MiniMax:
 
 												# tem 5 pecas
 												elif row[coluna+4].getDono() is self.jogador2:
+													quantPecasJogador2 = quantPecasJogador2 + 1
 													scoreP2 = scoreP2 + self.pontuacao[6]
 													espacoVazio = 0
 													coluna = coluna + 4
@@ -314,7 +327,7 @@ class MiniMax:
 						coluna = coluna + 1					
 			linha = linha + 1
 
-		return scoreP1 - scoreP2
+		return scoreP1,quantPecasJogador1,scoreP2,quantPecasJogador2
 
 	# avalia o tabuleiro em suas colunas	
 	def avaliacaoPorColuna(self, tabuleiro):
@@ -558,7 +571,7 @@ class MiniMax:
 											
 			coluna = coluna + 1
 
-		return scoreP1C - scoreP2C		
+		return scoreP1C,scoreP2C		
 
 
 	# avaliando o tabuleiro pelas diagonais	
@@ -1553,4 +1566,4 @@ class MiniMax:
 		
 		# print("Pontuacao p1 diagonal : " + str(scoreP1D))
 		# print("Pontuacao p2 diagonal : " + str(scoreP2D))
-		return scoreP1D - scoreP2D			
+		return scoreP1D,scoreP2D			

@@ -92,8 +92,9 @@ class GameGUI():
             self.tk.destroy()
         
     # funcao de callback quando uma casa é escolhida
-    def casaEscolhida(self, event, linha, coluna):                 
-        self.controlador.movimentacao(linha, coluna)
+    def casaEscolhida(self, event, linha, coluna):
+        if self.tabuleiro.getEstadoAtual()[linha][coluna] == 0:                 
+            self.controlador.movimentacao(linha, coluna)
 
     # carregando a joga feita na interface (pintando o quadrado)
     def setJogada(self, linha, coluna, cor):
